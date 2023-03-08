@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tipme_front/screens/home_screen.dart';
+import 'package:tipme_front/screens/main_screen.dart';
 
 void main() {
   runApp(const App());
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CupertinoApp(
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: HomeScreen(),
+      home: MainScreen(),
     );
   }
 }
