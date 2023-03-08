@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tipme_front/widgets/chagne_nickname_widget.dart';
+import 'package:tipme_front/screens/message_screen.dart';
+import 'package:tipme_front/widgets/change_nickname_widget.dart';
 
 class HomeWidget extends StatelessWidget {
   const HomeWidget({
@@ -57,14 +58,21 @@ class HomeWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const CupertinoListTile.notched(
-                      title: Text('받은 메세지'),
-                      leading: SizedBox(
+                    CupertinoListTile.notched(
+                      title: const Text('받은 메세지'),
+                      leading: const SizedBox(
                         width: double.infinity,
                         height: double.infinity,
                         child: Icon(CupertinoIcons.chat_bubble_text_fill),
                       ),
-                      trailing: CupertinoListTileChevron(),
+                      trailing: const CupertinoListTileChevron(),
+                      onTap: () => Navigator.of(context).push(
+                        CupertinoPageRoute(
+                          builder: (BuildContext context) {
+                            return const MessageScreen();
+                          },
+                        ),
+                      ),
                     ),
                     const CupertinoListTile.notched(
                       title: Text('친구 추가'),

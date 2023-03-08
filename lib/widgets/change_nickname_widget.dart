@@ -10,13 +10,13 @@ class ChangeNicknameWidget extends StatefulWidget {
 }
 
 class _ChangeNicknameWidgetState extends State<ChangeNicknameWidget> {
-  String guideMessage = "3~8자 사이의 닉네임을 입력해주세요.\n중복 및 공백은 허용되지 않습니다.";
+  String message = "3~8자 사이의 닉네임을 입력해주세요.\n중복 및 공백은 허용되지 않습니다.";
   bool isValid = true;
   final _nicknameEditController = TextEditingController();
   void changeGuide() {
     setState(() {
       isValid = false;
-      guideMessage = "다시 입력해주세요";
+      message = "다시 입력해주세요";
     });
   }
 
@@ -30,7 +30,7 @@ class _ChangeNicknameWidgetState extends State<ChangeNicknameWidget> {
   Widget build(BuildContext context) {
     return CupertinoActionSheet(
       title: Text(
-        guideMessage,
+        message,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color:
