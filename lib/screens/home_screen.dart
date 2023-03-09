@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/screens/message_screen.dart';
 import 'package:tipme_front/widgets/change_nickname_widget.dart';
+import 'package:tipme_front/widgets/friend_request_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   final UserInfoModel userInfo;
@@ -85,15 +86,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
-                    const CupertinoListTile.notched(
-                      title: Text('친구 추가'),
-                      leading: SizedBox(
+                    CupertinoListTile.notched(
+                      title: const Text('친구 추가'),
+                      leading: const SizedBox(
                         width: double.infinity,
                         height: double.infinity,
                         child:
                             Icon(CupertinoIcons.person_crop_circle_badge_plus),
                       ),
-                      trailing: CupertinoListTileChevron(),
+                      trailing: const CupertinoListTileChevron(),
+                      onTap: _showFriendRequestPopup,
                     ),
                     const CupertinoListTile.notched(
                       title: Text('로그아웃'),
@@ -110,5 +112,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ));
       },
     );
+  }
+
+  void _showFriendRequestPopup() async {
+    var result = await showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return const FriendRequestWidget();
+      },
+    );
+    print(result);
   }
 }
