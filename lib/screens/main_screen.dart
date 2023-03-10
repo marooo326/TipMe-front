@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/screens/home_screen.dart';
+import 'package:tipme_front/screens/tips_screen.dart';
 import 'package:tipme_front/services/api_service.dart';
 
 class MainScreen extends StatefulWidget {
@@ -21,9 +22,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int currentIndex = 1;
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
-        items: const <BottomNavigationBarItem>[
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.home),
             label: 'Home',
@@ -33,15 +35,27 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Tips',
           ),
         ],
+        currentIndex: currentIndex,
+        onTap: (int index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
       ),
       tabBuilder: (BuildContext context, int index) {
         return FutureBuilder(
           future: userInfo,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return HomeScreen(
-                userInfo: snapshot.data!,
-              );
+              if (index == 0) {
+                return HomeScreen(
+                  userInfo: snapshot.data!,
+                );
+              } else if (index == 1) {
+                return TipsScreen(
+                  userInfo: snapshot.data!,
+                );
+              }
             }
             return const CupertinoActivityIndicator();
           },
