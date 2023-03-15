@@ -24,6 +24,7 @@ class _TipsScreenState extends State<TipsScreen> {
     "술집",
     "기타",
   ];
+
   final List<Color> categoryColorList = [
     CupertinoColors.systemOrange,
     CupertinoColors.systemPurple,
@@ -81,40 +82,44 @@ class _TipsScreenState extends State<TipsScreen> {
             padding: const EdgeInsets.only(top: 110),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    CategoryButtonWidget(
-                      text: "전체보기",
-                      key: allCategoryWidgetKey,
-                      buttonColor: buttonColor,
-                      isAllButton: true,
-                      updateButtonState: updateButtonState,
-                    ),
-                    CategoryButtonWidget(
-                      key: categoryWidgetKeyList[0],
-                      text: categoryList[0],
-                      buttonColor: categoryColorList[0],
-                      updateButtonState: updateButtonState,
-                    ),
-                    CategoryButtonWidget(
-                      key: categoryWidgetKeyList[1],
-                      text: categoryList[1],
-                      buttonColor: categoryColorList[1],
-                      updateButtonState: updateButtonState,
-                    ),
-                    CategoryButtonWidget(
-                      key: categoryWidgetKeyList[2],
-                      text: categoryList[2],
-                      buttonColor: categoryColorList[2],
-                      updateButtonState: updateButtonState,
-                    ),
-                    CategoryButtonWidget(
-                      key: categoryWidgetKeyList[3],
-                      text: categoryList[3],
-                      buttonColor: categoryColorList[3],
-                      updateButtonState: updateButtonState,
-                    ),
-                  ],
+                SizedBox(
+                  height: 50,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      CategoryButtonWidget(
+                        text: "전체보기",
+                        key: allCategoryWidgetKey,
+                        buttonColor: buttonColor,
+                        isAllButton: true,
+                        updateButtonState: updateButtonState,
+                      ),
+                      CategoryButtonWidget(
+                        key: categoryWidgetKeyList[0],
+                        text: categoryList[0],
+                        buttonColor: categoryColorList[0],
+                        updateButtonState: updateButtonState,
+                      ),
+                      CategoryButtonWidget(
+                        key: categoryWidgetKeyList[1],
+                        text: categoryList[1],
+                        buttonColor: categoryColorList[1],
+                        updateButtonState: updateButtonState,
+                      ),
+                      CategoryButtonWidget(
+                        key: categoryWidgetKeyList[2],
+                        text: categoryList[2],
+                        buttonColor: categoryColorList[2],
+                        updateButtonState: updateButtonState,
+                      ),
+                      CategoryButtonWidget(
+                        key: categoryWidgetKeyList[3],
+                        text: categoryList[3],
+                        buttonColor: categoryColorList[3],
+                        updateButtonState: updateButtonState,
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -138,24 +143,63 @@ class _TipsScreenState extends State<TipsScreen> {
                         onPressed: () {})
                   ],
                 ),
-                Row(
-                  children: [
-                    TipCardWidget(
-                      id: 0,
-                      tipCount: 2,
-                      title: "Kanna",
-                      category: categoryList[0],
-                      cardColor: categoryColorList[0],
-                    ),
-                    TipCardWidget(
-                      id: 1,
-                      tipCount: 6,
-                      title: "심가네 감자탕",
-                      category: categoryList[1],
-                      cardColor: categoryColorList[1],
-                    ),
-                  ],
-                )
+                Expanded(
+                  child: GridView.extent(
+                    padding: const EdgeInsets.only(bottom: 300),
+                    maxCrossAxisExtent: 200,
+                    children: [
+                      TipCardWidget(
+                        id: 0,
+                        tipCount: 2,
+                        title: "Kanna",
+                        category: categoryList[0],
+                        cardColor: categoryColorList[0],
+                      ),
+                      TipCardWidget(
+                        id: 1,
+                        tipCount: 6,
+                        title: "심가네 감자탕",
+                        category: categoryList[1],
+                        cardColor: categoryColorList[1],
+                      ),
+                      TipCardWidget(
+                        id: 2,
+                        tipCount: 4,
+                        title: "수포차",
+                        category: categoryList[2],
+                        cardColor: categoryColorList[2],
+                      ),
+                      TipCardWidget(
+                        id: 3,
+                        tipCount: 1,
+                        title: "기타",
+                        category: categoryList[3],
+                        cardColor: categoryColorList[3],
+                      ),
+                      TipCardWidget(
+                        id: 0,
+                        tipCount: 2,
+                        title: "Kanna",
+                        category: categoryList[0],
+                        cardColor: categoryColorList[0],
+                      ),
+                      TipCardWidget(
+                        id: 1,
+                        tipCount: 6,
+                        title: "심가네 감자탕",
+                        category: categoryList[1],
+                        cardColor: categoryColorList[1],
+                      ),
+                      TipCardWidget(
+                        id: 2,
+                        tipCount: 4,
+                        title: "수포차",
+                        category: categoryList[2],
+                        cardColor: categoryColorList[2],
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
