@@ -31,9 +31,8 @@ class CategoryButtonWidgetState extends State<CategoryButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    //isButtonClicked = widget.defaultClicked;
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       height: 40,
       decoration: BoxDecoration(
         border: Border.all(
