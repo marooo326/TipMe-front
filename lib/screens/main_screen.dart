@@ -2,22 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/screens/home_screen.dart';
 import 'package:tipme_front/screens/tips_screen.dart';
-import 'package:tipme_front/services/api_service.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final UserInfoModel userInfo;
+  const MainScreen({
+    super.key,
+    required this.userInfo,
+  });
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late final Future<UserInfoModel> userInfo;
-
   @override
   void initState() {
     super.initState();
-    userInfo = ApiService.getUserInfo();
   }
 
   @override
@@ -43,23 +43,16 @@ class _MainScreenState extends State<MainScreen> {
         },
       ),
       tabBuilder: (BuildContext context, int index) {
-        return FutureBuilder(
-          future: userInfo,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (index == 0) {
-                return HomeScreen(
-                  userInfo: snapshot.data!,
-                );
-              } else if (index == 1) {
-                return TipsScreen(
-                  userInfo: snapshot.data!,
-                );
-              }
-            }
-            return const CupertinoActivityIndicator();
-          },
-        );
+        if (index == 0) {
+          return HomeScreen(
+            userInfo: widget.userInfo,
+          );
+        } else if (index == 1) {
+          return TipsScreen(
+            userInfo: widget.userInfo,
+          );
+        }
+        return const CupertinoActivityIndicator();
       },
     );
   }

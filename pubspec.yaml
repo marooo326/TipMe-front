@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  kakao_flutter_sdk_user: ^1.4.1 # 카카오 로그인
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,8 +1,8 @@
 class UserInfoModel {
-  final int userId;
   final String userName;
+  final String? userEmail;
   UserInfoModel({
-    required this.userId,
     required this.userName,
+    this.userEmail = "",
   });
 }
