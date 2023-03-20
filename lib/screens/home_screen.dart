@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/screens/message_screen.dart';
-import 'package:tipme_front/widgets/change_nickname_widget.dart';
+import 'package:tipme_front/services/api_service.dart';
+import 'package:tipme_front/widgets/nickname_change_widget.dart';
 import 'package:tipme_front/widgets/friend_request_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,6 +21,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void _showFriendRequestPopup() async {
+    var friendName = await showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return const FriendRequestWidget();
+      },
+    );
+    print(friendName);
+  }
+
+  void _showNicknameChangePopup() async {
+    var newName = await showCupertinoModalPopup(
+      context: context,
+      builder: (context) {
+        return const NicknameChangeWidget();
+      },
+    );
+    print(newName);
   }
 
   @override
@@ -55,21 +76,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   children: [
                     CupertinoListTile.notched(
-                      title: const Text('닉네임 변경'),
-                      leading: const SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: Icon(CupertinoIcons.arrow_2_circlepath),
-                      ),
-                      trailing: const CupertinoListTileChevron(),
-                      onTap: () => Navigator.of(context).push(
-                        CupertinoModalPopupRoute(
-                          builder: (BuildContext context) {
-                            return const ChangeNicknameWidget();
-                          },
+                        title: const Text('닉네임 변경'),
+                        leading: const SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Icon(CupertinoIcons.arrow_2_circlepath),
                         ),
-                      ),
-                    ),
+                        trailing: const CupertinoListTileChevron(),
+                        onTap: _showNicknameChangePopup),
                     CupertinoListTile.notched(
                       title: const Text('받은 메세지'),
                       leading: const SizedBox(
@@ -105,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Icon(CupertinoIcons.xmark_circle),
                       ),
                       trailing: CupertinoListTileChevron(),
+                      onTap: ApiService.logout,
                     ),
                   ],
                 )
@@ -112,15 +127,5 @@ class _HomeScreenState extends State<HomeScreen> {
             ));
       },
     );
-  }
-
-  void _showFriendRequestPopup() async {
-    var result = await showCupertinoModalPopup(
-      context: context,
-      builder: (context) {
-        return const FriendRequestWidget();
-      },
-    );
-    print(result);
   }
 }

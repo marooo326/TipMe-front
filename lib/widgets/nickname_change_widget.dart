@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
-class ChangeNicknameWidget extends StatefulWidget {
-  const ChangeNicknameWidget({
+class NicknameChangeWidget extends StatefulWidget {
+  const NicknameChangeWidget({
     super.key,
   });
 
   @override
-  State<ChangeNicknameWidget> createState() => _ChangeNicknameWidgetState();
+  State<NicknameChangeWidget> createState() => _NicknameChangeWidgetState();
 }
 
-class _ChangeNicknameWidgetState extends State<ChangeNicknameWidget> {
+class _NicknameChangeWidgetState extends State<NicknameChangeWidget> {
   String message = "3~8자 사이의 닉네임을 입력해주세요.\n중복 및 공백은 허용되지 않습니다.";
   bool isValid = true;
   final _nicknameEditController = TextEditingController();
@@ -51,8 +51,8 @@ class _ChangeNicknameWidgetState extends State<ChangeNicknameWidget> {
               //nick name 유효한지 검증하는 로직 추가 예정
               changeGuide();
             } else {
-              print(_nicknameEditController.text);
-              Navigator.pop(context);
+              //print(_nicknameEditController.text);
+              Navigator.pop(context, _nicknameEditController.text);
             }
           },
         ),
