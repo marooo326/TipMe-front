@@ -52,6 +52,7 @@ class _PostAddScreenState extends State<PostAddScreen> {
                   },
                 );
                 newPost.tips.add("");
+                newPost.notifyListeners();
               } else {
                 Navigator.pop(
                   context,
