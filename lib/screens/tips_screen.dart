@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tipme_front/models/post_model.dart';
 import 'package:tipme_front/models/user_info_model.dart';
+import 'package:tipme_front/screens/post_add_screen.dart';
 import 'package:tipme_front/widgets/category_button_widget.dart';
 import 'package:tipme_front/widgets/tip_card_widget.dart';
 
@@ -152,7 +155,25 @@ class _TipsScreenState extends State<TipsScreen> {
 
   void showPostDetailWidget() {}
 
-  void showAddPostWidget() {}
+  void showAddPostWidget() async {
+    try {
+      PostModel newPost = await showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return ChangeNotifierProvider(
+            create: (_) =>
+                PostModel(place: "", category: categoryList[0], tips: [""]),
+            child: PostAddScreen(
+              categoryList: categoryList,
+            ),
+          );
+        },
+      );
+      print(newPost);
+    } catch (e) {
+      print("뒤로가기");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,8 +189,8 @@ class _TipsScreenState extends State<TipsScreen> {
             floatingActionButton: Padding(
               padding: const EdgeInsets.only(bottom: 50),
               child: FloatingActionButton(
+                onPressed: showAddPostWidget,
                 child: const Icon(CupertinoIcons.add),
-                onPressed: () {},
               ),
             ),
             body: Padding(
@@ -187,6 +208,7 @@ class _TipsScreenState extends State<TipsScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CupertinoButton(
+                          onPressed: () {},
                           child: Row(
                             children: const [
                               Text(
@@ -201,8 +223,7 @@ class _TipsScreenState extends State<TipsScreen> {
                                 color: CupertinoColors.black,
                               )
                             ],
-                          ),
-                          onPressed: () {})
+                          ))
                     ],
                   ),
                   Expanded(
