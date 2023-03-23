@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tipme_front/models/catergory_info_model.dart';
 import 'package:tipme_front/models/post_model.dart';
 import 'package:tipme_front/widgets/basic_text_field_widget.dart';
 import 'package:tipme_front/widgets/dialog_button_widget.dart';
@@ -9,9 +10,7 @@ import 'package:tipme_front/widgets/tip_text_field_widget.dart';
 class PostAddScreen extends StatefulWidget {
   const PostAddScreen({
     super.key,
-    required this.categoryList,
   });
-  final List<String> categoryList;
 
   @override
   State<PostAddScreen> createState() => _PostAddScreenState();
@@ -91,7 +90,7 @@ class _PostAddScreenState extends State<PostAddScreen> {
                   const SizedBox(
                     width: 25,
                   ),
-                  DialogButtonWidget(categoryList: widget.categoryList),
+                  DialogButtonWidget(categoryList: Categories.toList()),
                 ],
               ),
               const Divider(

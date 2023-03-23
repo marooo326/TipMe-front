@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tipme_front/models/catergory_info_model.dart';
 import 'package:tipme_front/models/post_model.dart';
 import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/screens/post_add_screen.dart';
@@ -19,153 +20,55 @@ class TipsScreen extends StatefulWidget {
 }
 
 class _TipsScreenState extends State<TipsScreen> {
-  final List<String> categoryList = ["카페", "식당", "술집", "기타"];
-  late final GlobalKey<CategoryButtonWidgetState> allCategoryWidgetKey;
-  late final List<GlobalKey<CategoryButtonWidgetState>> categoryWidgetKeyList;
-  final List<Color> categoryColorList = [
-    CupertinoColors.systemOrange,
-    CupertinoColors.systemPurple,
-    CupertinoColors.systemGreen,
-    CupertinoColors.systemIndigo,
-    CupertinoColors.systemPink,
-  ];
-
   @override
   void initState() {
-    // 추후 상태관리 패턴 적용 필요
-    allCategoryWidgetKey = GlobalKey();
-    categoryWidgetKeyList = makeCategoryKeys();
     super.initState();
   }
 
-  List<GlobalKey<CategoryButtonWidgetState>> makeCategoryKeys() {
-    List<GlobalKey<CategoryButtonWidgetState>> keyList = [];
-    for (var i = 0; i < categoryList.length; ++i) {
-      keyList.add(GlobalKey());
-    } //카테고리 글로벌 키 생성
-    return keyList;
-  }
-
+  ///카테고리 버튼 생성 메소드
   List<CategoryButtonWidget> makeCategoryButtons() {
-    List<CategoryButtonWidget> buttonList = [
-      CategoryButtonWidget(
-        text: "전체보기",
-        key: allCategoryWidgetKey,
-        buttonColor: CupertinoColors.systemBlue,
-        isAllButton: true,
-        updateButtonState: updateCategoryButtonState,
-      ),
-    ];
-    for (var i = 0; i < categoryList.length; ++i) {
+    List<CategoryButtonWidget> buttonList = [];
+    for (var category in Categories.values) {
       buttonList.add(CategoryButtonWidget(
-        key: categoryWidgetKeyList[i],
-        text: categoryList[i],
-        buttonColor: categoryColorList[i],
-        updateButtonState: updateCategoryButtonState,
+        id: category.index,
+        text: category.name,
+        buttonColor: category.color,
       ));
     }
     return buttonList;
   }
 
-  List<TipCardWidget> makeTipCards() {
-    return [
-      TipCardWidget(
-        id: 0,
-        tipCount: 2,
-        title: "Kanna",
-        category: categoryList[0],
-        cardColor: categoryColorList[0],
-      ),
-      TipCardWidget(
-        id: 1,
-        tipCount: 6,
-        title: "심가네 감자탕",
-        category: categoryList[1],
-        cardColor: categoryColorList[1],
-      ),
-      TipCardWidget(
-        id: 2,
-        tipCount: 4,
-        title: "수포차",
-        category: categoryList[2],
-        cardColor: categoryColorList[2],
-      ),
-      TipCardWidget(
-        id: 3,
-        tipCount: 1,
-        title: "기타",
-        category: categoryList[3],
-        cardColor: categoryColorList[3],
-      ),
-      TipCardWidget(
-        id: 0,
-        tipCount: 2,
-        title: "Kanna",
-        category: categoryList[0],
-        cardColor: categoryColorList[0],
-      ),
-      TipCardWidget(
-        id: 1,
-        tipCount: 6,
-        title: "심가네 감자탕",
-        category: categoryList[1],
-        cardColor: categoryColorList[1],
-      ),
-      TipCardWidget(
-        id: 2,
-        tipCount: 4,
-        title: "수포차",
-        category: categoryList[2],
-        cardColor: categoryColorList[2],
-      ),
-    ];
-  }
+  ///임시 카드 제작 메소드
+  List<TipCardWidget> makeTipCards(BuildContext context) {
+    List<TipCardWidget> cardList = [];
+    var categoryInfo = Provider.of<CategoryInfoModel>(context);
+    for (var category in Categories.values) {
+      if (categoryInfo.isSelected[category.index]) {
+        cardList.add(TipCardWidget(
+          id: category.index,
+          tipCount: 123,
+          title: "Temp",
+          cardColor: category.color,
+          category: category.name,
+        ));
+      }
+    }
 
-  void updateCategoryButtonState(bool isAllButton, bool isSelected) {
-    setState(
-      () {
-        if (isAllButton) {
-          if (isSelected) {
-            for (var key in categoryWidgetKeyList) {
-              key.currentState!.setSelected();
-            }
-          } else if (!isSelected) {
-            for (var key in categoryWidgetKeyList) {
-              key.currentState!.setUnselected();
-            }
-          }
-        } else {
-          var isAllSelected = true;
-          if (isSelected) {
-            for (var key in categoryWidgetKeyList) {
-              isAllSelected = isAllSelected && key.currentState!.isSelected;
-            }
-          } else if (!isSelected) {
-            for (var key in categoryWidgetKeyList) {
-              isAllSelected = isAllSelected && key.currentState!.isSelected;
-            }
-          }
-          isAllSelected
-              ? allCategoryWidgetKey.currentState!.setSelected()
-              : allCategoryWidgetKey.currentState!.setUnselected();
-        }
-      },
-    );
+    return cardList;
   }
 
   void showPostDetailWidget() {}
 
-  void showAddPostWidget() async {
+  ///포스트 추가 팝업 실행 메소드
+  void showPostAddScreen() async {
     try {
       PostModel newPost = await showCupertinoModalPopup(
         context: context,
         builder: (context) {
           return ChangeNotifierProvider(
-            create: (_) =>
-                PostModel(place: "", category: categoryList[0], tips: [""]),
-            child: PostAddScreen(
-              categoryList: categoryList,
-            ),
+            create: (_) => PostModel(
+                place: "", category: Categories.cafe.name, tips: [""]),
+            child: const PostAddScreen(),
           );
         },
       );
@@ -185,57 +88,61 @@ class _TipsScreenState extends State<TipsScreen> {
             middle: const Text("Tips"),
             trailing: const Icon(CupertinoIcons.search),
           ),
-          child: Scaffold(
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.only(bottom: 50),
-              child: FloatingActionButton(
-                onPressed: showAddPostWidget,
-                child: const Icon(CupertinoIcons.add),
-              ),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.only(top: 110),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: makeCategoryButtons(),
-                    ),
+          child: ChangeNotifierProvider<CategoryInfoModel>(
+            create: (_) => CategoryInfoModel(),
+            builder: (context, child) {
+              return Scaffold(
+                floatingActionButton: Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: FloatingActionButton(
+                    onPressed: showPostAddScreen,
+                    child: const Icon(CupertinoIcons.add),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.only(top: 110),
+                  child: Column(
                     children: [
-                      CupertinoButton(
-                          onPressed: () {},
-                          child: Row(
-                            children: const [
-                              Text(
-                                "최신 등록 순",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Icon(
-                                CupertinoIcons.chevron_down,
-                                size: 10,
-                                color: CupertinoColors.black,
-                              )
-                            ],
-                          ))
+                      SizedBox(
+                        height: 50,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: makeCategoryButtons(),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CupertinoButton(
+                              onPressed: () {},
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    "최신 등록 순",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  Icon(
+                                    CupertinoIcons.chevron_down,
+                                    size: 10,
+                                    color: CupertinoColors.black,
+                                  )
+                                ],
+                              ))
+                        ],
+                      ),
+                      Expanded(
+                        child: GridView.extent(
+                            padding: const EdgeInsets.only(bottom: 300),
+                            maxCrossAxisExtent: 200,
+                            children: makeTipCards(context)),
+                      ),
                     ],
                   ),
-                  Expanded(
-                    child: GridView.extent(
-                      padding: const EdgeInsets.only(bottom: 300),
-                      maxCrossAxisExtent: 200,
-                      children: makeTipCards(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         );
       },
