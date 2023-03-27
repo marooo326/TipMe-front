@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/screens/home_screen.dart';
 import 'package:tipme_front/screens/tips_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  final UserInfoModel userInfo;
   const MainScreen({
     super.key,
-    required this.userInfo,
   });
 
   @override
@@ -44,13 +41,9 @@ class _MainScreenState extends State<MainScreen> {
       ),
       tabBuilder: (BuildContext context, int index) {
         if (index == 0) {
-          return HomeScreen(
-            userInfo: widget.userInfo,
-          );
+          return const HomeScreen();
         } else if (index == 1) {
-          return TipsScreen(
-            userInfo: widget.userInfo,
-          );
+          return const TipsScreen();
         }
         return const CupertinoActivityIndicator();
       },

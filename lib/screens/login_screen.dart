@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tipme_front/models/user_info_model.dart';
+import 'package:provider/provider.dart';
 import 'package:tipme_front/screens/main_screen.dart';
 import 'package:tipme_front/services/api_service.dart';
 
@@ -8,7 +8,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final Future<UserInfoModel> userInfo;
     return CupertinoPageScaffold(
       child: Center(
         child: Column(
@@ -28,15 +27,17 @@ class LoginScreen extends StatelessWidget {
                       "images/kakaoLogin.png",
                     ),
                     onPressed: () async {
-                      ApiService.loginWithKaKao().then(
-                        (userInfo) => Navigator.of(context).pushReplacement(
+                      ApiService.loginWithKaKao().then((userInfo) {
+                        if (userInfo.isValid == false) return;
+                        Navigator.of(context).pushReplacement(
                           CupertinoPageRoute(
-                            builder: (context) => MainScreen(
-                              userInfo: userInfo,
+                            builder: (context) => Provider.value(
+                              value: userInfo,
+                              child: const MainScreen(),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      });
                     },
                   ),
                   CupertinoButton(
