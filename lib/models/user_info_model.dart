@@ -1,8 +1,10 @@
 class UserInfoModel {
-  final String userName;
+  final bool isValid;
+  final String? userName;
   final String? userEmail;
   UserInfoModel({
-    required this.userName,
+    required this.isValid,
+    this.userName,
     this.userEmail = "",
   });
 }
