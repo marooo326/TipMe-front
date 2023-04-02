@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/catergory_info_model.dart';
 import 'package:tipme_front/models/post_model.dart';
+import 'package:tipme_front/models/user_info_model.dart';
 import 'package:tipme_front/widgets/basic_text_field_widget.dart';
 import 'package:tipme_front/widgets/dialog_button_widget.dart';
 import 'package:tipme_front/widgets/tip_text_field_widget.dart';
 
 class PostAddScreen extends StatefulWidget {
+  final UserInfoModel user;
   const PostAddScreen({
     super.key,
+    required this.user,
   });
 
   @override
@@ -23,13 +26,12 @@ class _PostAddScreenState extends State<PostAddScreen> {
       child: CupertinoPageScaffold(
         backgroundColor: CupertinoColors.extraLightBackgroundGray,
         navigationBar: CupertinoNavigationBar(
-          backgroundColor: CupertinoColors.systemGrey.withOpacity(0.2),
+          backgroundColor: CupertinoColors.lightBackgroundGray,
           middle: const Text("새로운 포스트 등록"),
           trailing: CupertinoButton(
             onPressed: () async {
               PostModel newPost =
                   Provider.of<PostModel>(context, listen: false);
-              newPost.tips.removeWhere((element) => element.isEmpty);
               if (newPost.place == "") {
                 await showCupertinoDialog(
                   barrierDismissible: true,
@@ -40,7 +42,7 @@ class _PostAddScreenState extends State<PostAddScreen> {
                     );
                   },
                 );
-              } else if (newPost.tips.isEmpty) {
+              } else if (newPost.isEmpty()) {
                 await showCupertinoDialog(
                   barrierDismissible: true,
                   context: context,
@@ -50,8 +52,7 @@ class _PostAddScreenState extends State<PostAddScreen> {
                     );
                   },
                 );
-                newPost.tips.add("");
-                newPost.notifyListeners();
+                newPost.initTips(widget.user);
               } else {
                 Navigator.pop(
                   context,
@@ -66,9 +67,8 @@ class _PostAddScreenState extends State<PostAddScreen> {
           ),
         ),
         child: Container(
-          padding: const EdgeInsets.only(left: 20, top: 110),
+          padding: const EdgeInsets.only(left: 20, top: 10),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const BasicTextFieldWidget(
                 prefix: "장소명",
@@ -90,14 +90,16 @@ class _PostAddScreenState extends State<PostAddScreen> {
                   const SizedBox(
                     width: 25,
                   ),
-                  DialogButtonWidget(categoryList: Categories.toList()),
+                  DialogButtonWidget(
+                    categoryList: Categories.toList(),
+                  ),
                 ],
               ),
               const Divider(
                 thickness: 1,
                 color: CupertinoColors.systemGrey,
               ),
-              const TipTextFieldWidget(),
+              TipTextFieldWidget(user: widget.user),
             ],
           ),
         ),

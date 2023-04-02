@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/post_model.dart';
+import 'package:tipme_front/models/tip_model.dart';
+import 'package:tipme_front/models/user_info_model.dart';
 
 class TipTextFieldWidget extends StatefulWidget {
+  final UserInfoModel user;
   const TipTextFieldWidget({
     super.key,
+    required this.user,
   });
 
   @override
@@ -12,6 +16,11 @@ class TipTextFieldWidget extends StatefulWidget {
 }
 
 class _TipTextFieldWidgetState extends State<TipTextFieldWidget> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PostModel>(
@@ -22,9 +31,10 @@ class _TipTextFieldWidgetState extends State<TipTextFieldWidget> {
             itemCount: value.tips.length,
             itemBuilder: (context, index) {
               return CupertinoTextField(
-                controller: TextEditingController(text: value.tips[index]),
+                controller:
+                    TextEditingController(text: value.tips[index].comment),
                 onChanged: (String tip) {
-                  value.tips[index] = tip;
+                  value.tips[index].comment = tip;
                 },
                 prefix: index == 0
                     ? SizedBox(
@@ -42,7 +52,8 @@ class _TipTextFieldWidgetState extends State<TipTextFieldWidget> {
                             CupertinoButton(
                               padding: const EdgeInsets.only(bottom: 3),
                               onPressed: () {
-                                value.addTip(index);
+                                value.addTip(
+                                    TipModel(writer: widget.user, comment: ""));
                               },
                               child: const Icon(
                                 CupertinoIcons.add_circled,
@@ -52,7 +63,9 @@ class _TipTextFieldWidgetState extends State<TipTextFieldWidget> {
                           ],
                         ),
                       )
-                    : const SizedBox(width: 60),
+                    : const SizedBox(
+                        width: 60,
+                      ),
                 suffix: CupertinoButton(
                   onPressed: () {
                     setState(() {

@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:tipme_front/models/catergory_info_model.dart';
+import 'package:tipme_front/models/post_model.dart';
 
 class TipCardWidget extends StatefulWidget {
   const TipCardWidget({
     super.key,
-    required this.id,
-    required this.tipCount,
-    required this.title,
-    required this.category,
-    required this.cardColor,
+    required this.post,
   });
-  final int id, tipCount;
-  final String title, category;
-  final Color cardColor;
+  final PostModel post;
 
   @override
   State<TipCardWidget> createState() => _TipCardWidgetState();
 }
 
 class _TipCardWidgetState extends State<TipCardWidget> {
+  late final String title;
+  late final String category;
+  late final int tipCount;
+  late final IconData icon;
+  late final Color cardColor;
+
+  @override
+  void initState() {
+    title = widget.post.place;
+    category = widget.post.category;
+    tipCount = widget.post.tips.length;
+    icon = Categories.getIcon(category);
+    cardColor = Categories.getColor(category);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,13 +38,13 @@ class _TipCardWidgetState extends State<TipCardWidget> {
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: widget.cardColor.withOpacity(1),
+        color: cardColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            blurRadius: 10,
-            offset: const Offset(5, 5),
-            color: Colors.black.withOpacity(0.5),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.35),
           ),
         ],
       ),
@@ -42,7 +54,7 @@ class _TipCardWidgetState extends State<TipCardWidget> {
           Row(
             children: [
               Text(
-                widget.title,
+                title,
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w500,
@@ -55,8 +67,8 @@ class _TipCardWidgetState extends State<TipCardWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Icon(
-                Icons.coffee,
+              Icon(
+                icon,
                 color: Colors.white,
                 size: 40,
               ),
@@ -64,7 +76,7 @@ class _TipCardWidgetState extends State<TipCardWidget> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    widget.category,
+                    category,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
@@ -75,7 +87,7 @@ class _TipCardWidgetState extends State<TipCardWidget> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        widget.tipCount.toString(),
+                        tipCount.toString(),
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,

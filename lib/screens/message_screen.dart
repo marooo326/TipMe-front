@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tipme_front/models/chat_room_model.dart';
-import 'package:tipme_front/services/api_service.dart';
+import 'package:tipme_front/services/data_api_service.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({super.key});
@@ -15,15 +15,15 @@ class _MessageScreenState extends State<MessageScreen> {
   @override
   void initState() {
     super.initState();
-    chatRooms = ApiService.getChatRooms();
+    chatRooms = DataApiService.getChatRooms();
   }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.systemGrey.withOpacity(0.2),
-        middle: const Text('Messages'),
+      navigationBar: const CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.lightBackgroundGray,
+        middle: Text('Messages'),
       ),
       child: FutureBuilder(
         future: chatRooms,
