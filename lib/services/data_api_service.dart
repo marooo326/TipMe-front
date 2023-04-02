@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:tipme_front/models/catergory_info_model.dart';
 import 'package:tipme_front/models/chat_room_model.dart';
+import 'package:tipme_front/models/post_model.dart';
 import 'package:tipme_front/models/tip_model.dart';
+import 'package:tipme_front/models/user_info_model.dart';
 
 class DataApiService {
   static const String baseUrl = "http://192.168.56.81:8080/apitests/post-test";
@@ -19,15 +22,35 @@ class DataApiService {
     return chatRoomData;
   }
 
-  static Future<List<TipModel>> getTips() async {
-    late List<TipModel> list;
-    list = [
-      TipModel(id: 0, writerId: 123, comment: "comment"),
-      TipModel(id: 1, writerId: 123, comment: "comment"),
-      TipModel(id: 2, writerId: 123, comment: "comment"),
-      TipModel(id: 3, writerId: 123, comment: "comment"),
-    ];
-    await Future.delayed(const Duration(seconds: 1), () {});
-    return list;
+  static Future<List<PostModel>> getPosts(UserInfoModel user) async {
+    //user info를 이용해 서버에서 데이터 받아온 후 return
+    return List.generate(
+      4,
+      (index) => PostModel(
+        id: index,
+        place: "place $index", //임시
+        category: Categories.values[index].name,
+        tips: List.generate(
+          5,
+          (index) =>
+              TipModel(id: index, writer: user, comment: "comment $index"),
+        ),
+      ),
+    );
+  }
+
+  static Future<List<TipModel>> getTips(UserInfoModel user, int postId) async {
+    return List.generate(
+      5,
+      (index) => TipModel(id: index, writer: user, comment: "comment $index"),
+    );
+  }
+
+  static void postNewPost(UserInfoModel user, PostModel post) {
+    //서버에게 새로운 post post 요청
+  }
+
+  static void postTip(UserInfoModel user, int postId, TipModel tip) {
+    //서버에게 tip post 요청
   }
 }
