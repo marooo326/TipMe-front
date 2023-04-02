@@ -20,6 +20,18 @@ enum Categories {
     return names;
   }
 
+  static int getIndex(String category) {
+    if (category == Categories.cafe.name) {
+      return 1;
+    } else if (category == Categories.restaurant.name) {
+      return 2;
+    } else if (category == Categories.bar.name) {
+      return 3;
+    } else {
+      return 4;
+    }
+  }
+
   static IconData getIcon(String category) {
     if (category == Categories.cafe.name) {
       return Categories.cafe.icon;
