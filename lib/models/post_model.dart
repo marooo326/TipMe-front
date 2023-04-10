@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tipme_front/models/tip_model.dart';
 import 'package:tipme_front/models/user_info_model.dart';
+import 'package:tipme_front/utils/constants.dart';
 
 class PostModel with ChangeNotifier {
   int? id;
-  String place, category;
+  String place;
+  Categories category;
   List<TipModel> tips;
 
   PostModel({
@@ -14,6 +15,14 @@ class PostModel with ChangeNotifier {
     required this.category,
     required this.tips,
   });
+
+  PostModel.fromJson(Map<String, dynamic> json)
+      : id = json["id"],
+        place = json["storeName"],
+        category = Categories.getCatetory(json["storeType"]),
+        tips = (json["tips"] as List<Map<String, dynamic>>)
+            .map((tip) => TipModel.fromJson(tip))
+            .toList();
 
   void printInfo() {
     print("[PostModel instance] place:$place, category:$category");
