@@ -1,8 +1,8 @@
-import 'package:tipme_front/models/user_info_model.dart';
+import 'package:tipme_front/models/user_model.dart';
 
 class TipModel {
   final int? id;
-  final UserInfoModel writer;
+  final UserModel writer;
   String comment;
 
   TipModel({
@@ -14,7 +14,12 @@ class TipModel {
   TipModel.fromJson(Map<String, dynamic> json)
       : id = json["id"],
         comment = json["comment"],
-        writer = UserInfoModel.fromJson(json["writer"]);
+        writer = UserModel.fromJson(json["writer"]);
+
+  Map<String, dynamic> toJson(int? postId) => {
+        "postId": postId,
+        "comment": comment,
+      };
 
   bool isEmpty() {
     return comment == "";

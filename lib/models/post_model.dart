@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tipme_front/models/tip_model.dart';
-import 'package:tipme_front/models/user_info_model.dart';
+import 'package:tipme_front/models/user_model.dart';
 import 'package:tipme_front/utils/constants.dart';
 
 class PostModel with ChangeNotifier {
@@ -20,9 +20,15 @@ class PostModel with ChangeNotifier {
       : id = json["id"],
         place = json["storeName"],
         category = Categories.getCatetory(json["storeType"]),
-        tips = (json["tips"] as List<Map<String, dynamic>>)
-            .map((tip) => TipModel.fromJson(tip))
-            .toList();
+        tips = (json["tips"] as List<dynamic>).map((tip) {
+          return TipModel.fromJson(tip);
+        }).toList();
+
+  Map<String, dynamic> toJson() => {
+        "storeName": place,
+        "storeType": category.toString().split('.').last,
+        "tips": tips.map((tip) => tip.toJson(id)).toList().toString(),
+      };
 
   void printInfo() {
     print("[PostModel instance] place:$place, category:$category");
@@ -32,7 +38,7 @@ class PostModel with ChangeNotifier {
     }
   }
 
-  void initTips(UserInfoModel writer) {
+  void initTips(UserModel writer) {
     tips = [
       TipModel(writer: writer, comment: ""),
     ];
