@@ -34,7 +34,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakaof728522d88b590d29a643119029b65ef</string>
+				<string>kakao${kakaoAppKey}</string>
 			</array>
 		</dict>
 	</array>
