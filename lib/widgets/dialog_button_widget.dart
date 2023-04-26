@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/post_model.dart';
+import 'package:tipme_front/utils/constants.dart';
 
 class DialogButtonWidget extends StatefulWidget {
   const DialogButtonWidget({
     super.key,
-    required this.categoryList,
   });
-  final List<String> categoryList;
 
   @override
   State<DialogButtonWidget> createState() => _DialogButtonWidgetState();
 }
 
 class _DialogButtonWidgetState extends State<DialogButtonWidget> {
+  final List<Categories> categoryList =
+      Categories.values.map((category) => category).toList();
+
   void _showDialog(BuildContext context, Widget child) {
     showCupertinoModalPopup(
       context: context,
@@ -42,22 +44,21 @@ class _DialogButtonWidgetState extends State<DialogButtonWidget> {
             CupertinoPicker(
               itemExtent: 50,
               onSelectedItemChanged: (selectedItem) {
-                value.category = widget.categoryList[selectedItem];
-                value.notifyListeners();
+                setState(() {
+                  value.category = categoryList[selectedItem];
+                });
               },
               children: List.generate(
-                widget.categoryList.length,
+                categoryList.length,
                 (index) => Center(
-                  child: Text(
-                    widget.categoryList[index],
-                  ),
+                  child: Text(categoryList[index].name),
                 ),
               ),
             ),
           ),
           child: Center(
             child: Text(
-              value.category,
+              value.category.name,
               style: const TextStyle(
                 fontSize: 17,
               ),

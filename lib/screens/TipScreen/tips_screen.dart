@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tipme_front/models/catergory_info_model.dart';
+import 'package:tipme_front/models/category_provider.dart';
 import 'package:tipme_front/models/post_model.dart';
 import 'package:tipme_front/models/tip_model.dart';
-import 'package:tipme_front/models/user_info_model.dart';
-import 'package:tipme_front/screens/post_add_screen.dart';
-import 'package:tipme_front/screens/post_detail_screen.dart';
+import 'package:tipme_front/models/user_model.dart';
+import 'package:tipme_front/screens/TipScreen/post_add_screen.dart';
+import 'package:tipme_front/screens/TipScreen/post_detail_screen.dart';
+import 'package:tipme_front/screens/TipScreen/tip_card_widget.dart';
 import 'package:tipme_front/services/data_api_service.dart';
-import 'package:tipme_front/widgets/category_button_widget.dart';
-import 'package:tipme_front/widgets/tip_card_widget.dart';
+import 'package:tipme_front/utils/constants.dart';
+import 'package:tipme_front/screens/TipScreen/category_button_widget.dart';
 
 class TipsScreen extends StatefulWidget {
   const TipsScreen({
@@ -21,25 +24,25 @@ class TipsScreen extends StatefulWidget {
 }
 
 class _TipsScreenState extends State<TipsScreen> {
-  late final UserInfoModel user;
+  late final UserModel user;
   late Future<List<PostModel>> posts;
 
   @override
   void initState() {
     super.initState();
-    user = Provider.of<UserInfoModel>(context, listen: false);
-    posts = DataApiService.getPosts(user);
+    user = Provider.of<UserModel>(context, listen: false);
+    posts = DataApiService.getPosts(user.token!);
   }
 
-  void refreshPost() {
+  void _refreshPost() {
     setState(() {
-      posts = DataApiService.getPosts(user);
-      print("새로고침");
+      posts = DataApiService.getPosts(user.token!);
+      print("포스트 다시 불러오기");
     });
   }
 
   ///카테고리 버튼 생성 메소드
-  List<CategoryButtonWidget> makeCategoryButtons() {
+  List<CategoryButtonWidget> _makeCategoryButtons() {
     List<CategoryButtonWidget> buttonList = [
       const CategoryButtonWidget(
         id: 0,
@@ -60,12 +63,12 @@ class _TipsScreenState extends State<TipsScreen> {
   }
 
   ///카드 제작 메소드
-  List<GestureDetector> makeTipCards(
+  List<GestureDetector> _makeTipCards(
       BuildContext context, List<PostModel> posts) {
     List<GestureDetector> tipsCards = [];
-    List<bool> isSelected = Provider.of<CategoryInfoModel>(context).isSelected;
+    List<bool> isSelected = Provider.of<CategoryProvider>(context).isSelected;
     for (var post in posts) {
-      if (isSelected[Categories.getIndex(post.category)]) {
+      if (isSelected[post.category.id]) {
         tipsCards.add(
           GestureDetector(
             onTap: () {
@@ -80,7 +83,7 @@ class _TipsScreenState extends State<TipsScreen> {
                     );
                   },
                 ),
-              ).then((value) => refreshPost());
+              ).then((value) => _refreshPost());
             },
             child: TipCardWidget(
               key: UniqueKey(),
@@ -94,24 +97,24 @@ class _TipsScreenState extends State<TipsScreen> {
   }
 
   ///포스트 추가 팝업 실행 메소드
-  void showPostAddScreen() async {
+  void _showPostAddScreen() async {
     try {
-      PostModel newPost = await showCupertinoModalPopup(
+      await showCupertinoModalPopup(
         context: context,
         builder: (context) {
           return ChangeNotifierProvider(
             create: (_) => PostModel(
               place: "",
-              category: Categories.cafe.name,
+              category: Categories.CAFE,
               tips: [TipModel(writer: user, comment: "")],
             ),
             child: PostAddScreen(user: user),
           );
         },
       );
-      newPost.printInfo();
+      _refreshPost();
     } catch (e) {
-      print("뒤로가기");
+      print(e);
     }
   }
 
@@ -125,15 +128,15 @@ class _TipsScreenState extends State<TipsScreen> {
             middle: Text("Tips"),
             trailing: Icon(CupertinoIcons.search),
           ),
-          child: ChangeNotifierProvider<CategoryInfoModel>(
-            create: (_) => CategoryInfoModel(),
+          child: ChangeNotifierProvider<CategoryProvider>(
+            create: (_) => CategoryProvider(),
             builder: (context, child) {
               return Scaffold(
                 floatingActionButton: Padding(
                   padding: const EdgeInsets.only(bottom: 50),
                   child: FloatingActionButton(
                     backgroundColor: CupertinoColors.systemTeal,
-                    onPressed: showPostAddScreen,
+                    onPressed: _showPostAddScreen,
                     child: const Icon(CupertinoIcons.add),
                   ),
                 ),
@@ -145,27 +148,23 @@ class _TipsScreenState extends State<TipsScreen> {
                         height: 50,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
-                          children: makeCategoryButtons(),
+                          children: _makeCategoryButtons(),
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CupertinoButton(
-                            onPressed: () {},
+                            padding: const EdgeInsets.only(right: 15),
+                            onPressed: _refreshPost,
                             child: Row(
                               children: const [
                                 Text(
-                                  "최신 등록 순",
+                                  "포스트 새로고침",
                                   style: TextStyle(
                                     fontSize: 15,
                                   ),
                                 ),
-                                Icon(
-                                  CupertinoIcons.chevron_down,
-                                  size: 10,
-                                  color: CupertinoColors.black,
-                                )
                               ],
                             ),
                           )
@@ -179,11 +178,12 @@ class _TipsScreenState extends State<TipsScreen> {
                               return GridView.extent(
                                 padding: const EdgeInsets.only(bottom: 300),
                                 maxCrossAxisExtent: 250,
-                                children: makeTipCards(context, snapshot.data!),
+                                children:
+                                    _makeTipCards(context, snapshot.data!),
                               );
                             } else {
                               return const Center(
-                                child: Text("There's no data"),
+                                child: CupertinoActivityIndicator(),
                               );
                             }
                           },

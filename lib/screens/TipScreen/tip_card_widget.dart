@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tipme_front/models/catergory_info_model.dart';
 import 'package:tipme_front/models/post_model.dart';
+
+import '../../utils/constants.dart';
 
 class TipCardWidget extends StatefulWidget {
   const TipCardWidget({
@@ -23,7 +24,7 @@ class _TipCardWidgetState extends State<TipCardWidget> {
   @override
   void initState() {
     title = widget.post.place;
-    category = widget.post.category;
+    category = widget.post.category.name;
     tipCount = widget.post.tips.length;
     icon = Categories.getIcon(category);
     cardColor = Categories.getColor(category);

@@ -1,6 +1,7 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:tipme_front/models/catergory_info_model.dart';
+import 'package:tipme_front/models/category_provider.dart';
 
 class CategoryButtonWidget extends StatefulWidget {
   const CategoryButtonWidget({
@@ -20,7 +21,7 @@ class CategoryButtonWidget extends StatefulWidget {
 class CategoryButtonWidgetState extends State<CategoryButtonWidget> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CategoryInfoModel>(
+    return Consumer<CategoryProvider>(
       builder: (context, value, child) {
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),

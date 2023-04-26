@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/post_model.dart';
 import 'package:tipme_front/models/tip_model.dart';
-import 'package:tipme_front/models/user_info_model.dart';
+import 'package:tipme_front/models/user_model.dart';
 
 class TipTextFieldWidget extends StatefulWidget {
-  final UserInfoModel user;
+  final UserModel user;
   const TipTextFieldWidget({
     super.key,
     required this.user,
