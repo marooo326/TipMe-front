@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/screens/main_screen.dart';
-import 'package:tipme_front/services/api_service.dart';
+import 'package:tipme_front/services/user_api_service.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -27,17 +27,20 @@ class LoginScreen extends StatelessWidget {
                       "images/kakaoLogin.png",
                     ),
                     onPressed: () async {
-                      ApiService.loginWithKaKao().then((userInfo) {
-                        if (userInfo.isValid == false) return;
-                        Navigator.of(context).pushReplacement(
-                          CupertinoPageRoute(
-                            builder: (context) => Provider.value(
-                              value: userInfo,
-                              child: const MainScreen(),
-                            ),
-                          ),
-                        );
-                      });
+                      UserApiService.loginWithKaKao().then(
+                        (userInfo) {
+                          if (userInfo != null) {
+                            Navigator.of(context).pushReplacement(
+                              CupertinoPageRoute(
+                                builder: (context) => Provider.value(
+                                  value: userInfo,
+                                  child: const MainScreen(),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
                     },
                   ),
                   CupertinoButton(
