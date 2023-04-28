@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:tipme_front/screens/login_screen.dart';
+import 'package:tipme_front/screens/auth_screen.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -25,7 +25,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CupertinoApp(
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: LoginScreen(),
+      home: AuthScreen(),
     );
   }
 }

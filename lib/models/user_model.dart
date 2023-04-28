@@ -1,16 +1,26 @@
+import 'dart:async';
+
 class UserModel {
   String userName;
-  final String? userEmail;
-  final String? token;
+  String? userEmail;
+  String? token;
+  final loginStreamController = StreamController<bool>()..add(false);
 
   UserModel({
-    required this.userName,
-    required this.userEmail,
+    this.userName = "",
+    this.userEmail,
     this.token,
   });
 
   UserModel.fromJson(Map<String, dynamic> json)
       : userName = json["nickname"],
         userEmail = json["email"],
-        token = json["jwt"] ?? "";
+        token = json["jwt"];
+
+  void updateUserInfo(UserModel user) {
+    userName = user.userName;
+    userEmail = user.userEmail;
+    token = user.token;
+    loginStreamController.add(true);
+  }
 }

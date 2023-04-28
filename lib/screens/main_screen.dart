@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tipme_front/screens/home_screen.dart';
-import 'package:tipme_front/screens/tips_screen.dart';
+import 'package:tipme_front/screens/HomeScreen/home_screen.dart';
+import 'package:tipme_front/screens/TipScreen/tips_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({

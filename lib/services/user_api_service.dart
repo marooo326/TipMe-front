@@ -86,8 +86,4 @@ class UserApiService {
 
   ///미구현
   static Future<dynamic> loginWithGoogle() async {}
-
-  static logout() {
-    UserApi.instance.logout();
-  }
 }

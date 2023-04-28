@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/user_model.dart';
 import 'package:tipme_front/screens/HomeScreen/friend_list_screen.dart';
 import 'package:tipme_front/screens/HomeScreen/message_screen.dart';
 import 'package:tipme_front/services/data_api_service.dart';
-import 'package:tipme_front/services/user_api_service.dart';
 import 'package:tipme_front/utils/functions.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -189,13 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     trailing: const CupertinoListTileChevron(),
                     onTap: () {
-                      UserApiService.logout();
-                      // StreamBuilder 적용하기
-                      // Navigator.of(context).pushReplacement(
-                      //   CupertinoPageRoute(
-                      //     builder: (context) => const LoginScreen(),
-                      //   ),
-                      // );
+                      // 카카오 토큰 파기
+                      UserApi.instance.logout();
+                      // 스트림 로그아웃
+                      user.loginStreamController.add(false);
                     },
                   ),
                 ],
