@@ -24,41 +24,46 @@ class _TextFieldDialogWidgetState extends State<TextFieldDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoActionSheet(
-      title: Container(
-        margin: const EdgeInsets.only(top: 10),
-        child: Text(
-          widget.message,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: CupertinoColors.systemBlue,
+    var mediaQuery = MediaQuery.of(context);
+    return AnimatedContainer(
+      padding: mediaQuery.viewInsets,
+      duration: const Duration(milliseconds: 50),
+      child: CupertinoActionSheet(
+        title: Container(
+          margin: const EdgeInsets.only(top: 10),
+          child: Text(
+            widget.message,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: CupertinoColors.systemBlue,
+            ),
           ),
         ),
-      ),
-      message: CupertinoTextField(
-        controller: _controller,
-        textAlign: TextAlign.center,
-        autofocus: true,
-        placeholder: widget.placeholder,
-      ),
-      actions: <CupertinoActionSheetAction>[
-        CupertinoActionSheetAction(
-          child: const Text('확인'),
-          onPressed: () {
-            Navigator.pop(context, _controller.text);
-          },
+        message: CupertinoTextField(
+          controller: _controller,
+          textAlign: TextAlign.center,
+          autofocus: true,
+          placeholder: widget.placeholder,
         ),
-        CupertinoActionSheetAction(
-          child: const Text(
-            '취소',
-            style: TextStyle(color: CupertinoColors.systemRed),
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            child: const Text('확인'),
+            onPressed: () {
+              Navigator.pop(context, _controller.text);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ],
+          CupertinoActionSheetAction(
+            child: const Text(
+              '취소',
+              style: TextStyle(color: CupertinoColors.systemRed),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 }

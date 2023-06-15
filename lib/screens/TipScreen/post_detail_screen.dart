@@ -172,7 +172,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ),
             Container(
               padding:
-                  const EdgeInsets.only(top: 5, bottom: 60, left: 5, right: 5),
+                  const EdgeInsets.only(top: 5, bottom: 45, left: 5, right: 5),
               decoration: const BoxDecoration(
                 color: CupertinoColors.extraLightBackgroundGray,
               ),

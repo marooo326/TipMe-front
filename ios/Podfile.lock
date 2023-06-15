@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - kakao_flutter_sdk_common (1.4.2):
+  - kakao_flutter_sdk_common (1.4.3):
     - Flutter
   - shared_preferences_foundation (0.0.1):
     - Flutter
@@ -9,7 +9,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - kakao_flutter_sdk_common (from `.symlinks/plugins/kakao_flutter_sdk_common/ios`)
-  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 EXTERNAL SOURCES:
   Flutter:
@@ -17,12 +17,12 @@ EXTERNAL SOURCES:
   kakao_flutter_sdk_common:
     :path: ".symlinks/plugins/kakao_flutter_sdk_common/ios"
   shared_preferences_foundation:
-    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  kakao_flutter_sdk_common: fc550ec16c85451e874d5304d2e1c540a221f5cb
-  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
+  kakao_flutter_sdk_common: 31d55af8ed73538126d26d42bf9e8049a2f76da4
+  shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
