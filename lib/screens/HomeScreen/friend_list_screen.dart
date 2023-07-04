@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/user_model.dart';
@@ -26,7 +25,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.lightBackgroundGray,
+        backgroundColor: CupertinoColors.extraLightBackgroundGray,
         middle: Text('Friends'),
       ),
       child: FutureBuilder(

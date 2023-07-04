@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:tipme_front/models/category_provider.dart';
@@ -51,7 +50,7 @@ class CategoryButtonWidgetState extends State<CategoryButtonWidget> {
                       ? CupertinoColors.white
                       : widget.buttonColor,
                   fontSize: 15,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

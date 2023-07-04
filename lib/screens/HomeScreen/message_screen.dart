@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +84,7 @@ class _MessageScreenState extends State<MessageScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.lightBackgroundGray,
+        backgroundColor: CupertinoColors.extraLightBackgroundGray,
         middle: Text('Messages'),
       ),
       child: FutureBuilder(

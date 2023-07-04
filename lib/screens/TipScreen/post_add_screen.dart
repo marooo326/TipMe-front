@@ -77,8 +77,8 @@ class _PostAddScreenState extends State<PostAddScreen> {
                 thickness: 1,
                 color: CupertinoColors.systemGrey,
               ),
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Text(
                     "카테고리",
                     style: TextStyle(

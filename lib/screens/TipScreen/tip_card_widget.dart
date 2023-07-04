@@ -57,8 +57,9 @@ class _TipCardWidgetState extends State<TipCardWidget> {
               Text(
                 title,
                 style: const TextStyle(
+                  fontFamily: 'Taebaek',
+                  fontWeight: FontWeight.w900,
                   fontSize: 22,
-                  fontWeight: FontWeight.w500,
                   color: Colors.white,
                 ),
               ),
@@ -78,10 +79,11 @@ class _TipCardWidgetState extends State<TipCardWidget> {
                 children: [
                   Text(
                     category,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.7),
+                      fontFamily: 'Taebaek',
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
                   ),
                   Row(
@@ -91,7 +93,8 @@ class _TipCardWidgetState extends State<TipCardWidget> {
                         tipCount.toString(),
                         style: const TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Taebaek',
+                          fontWeight: FontWeight.w900,
                           color: Colors.white,
                         ),
                       ),

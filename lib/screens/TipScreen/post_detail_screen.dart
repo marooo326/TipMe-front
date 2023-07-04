@@ -102,98 +102,107 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        padding: EdgeInsetsDirectional.zero,
-        leading: CupertinoButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          padding: EdgeInsets.zero,
-          child: const Icon(
-            CupertinoIcons.back,
-            size: 30,
+    return Container(
+      color: categoryColor,
+      child: SafeArea(
+        child: CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            padding: EdgeInsetsDirectional.zero,
+            leading: CupertinoButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              padding: EdgeInsets.zero,
+              child: const Icon(
+                CupertinoIcons.back,
+                size: 30,
+              ),
+            ),
+            backgroundColor: categoryColor,
+            middle: Text(
+              title,
+              style: const TextStyle(
+                color: CupertinoColors.darkBackgroundGray,
+              ),
+            ),
           ),
-        ),
-        backgroundColor: categoryColor.withOpacity(0.8),
-        middle: Text(
-          title,
-          style: const TextStyle(
-            color: CupertinoColors.darkBackgroundGray,
-          ),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 100),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(10),
-                itemCount: tips.length,
-                itemBuilder: (context, index) {
-                  var isMyTip = false;
-                  if (tips[index].writer.userName == user.userName) {
-                    isMyTip = true;
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                      crossAxisAlignment: isMyTip
-                          ? CrossAxisAlignment.end
-                          : CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          tips[index].writer.userName,
-                          style: const TextStyle(
-                            fontSize: 14,
+          child: Container(
+            color: CupertinoColors.extraLightBackgroundGray,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(10),
+                      itemCount: tips.length,
+                      itemBuilder: (context, index) {
+                        var isMyTip = false;
+                        if (tips[index].writer.userName == user.userName) {
+                          isMyTip = true;
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Column(
+                            crossAxisAlignment: isMyTip
+                                ? CrossAxisAlignment.end
+                                : CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                tips[index].writer.userName,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              GestureDetector(
+                                onLongPress: isMyTip
+                                    ? () => onTipPress(tips[index])
+                                    : () {},
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: CupertinoColors.systemGrey3),
+                                  child: Text(tips[index].comment),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        GestureDetector(
-                          onLongPress:
-                              isMyTip ? () => onTipPress(tips[index]) : () {},
-                          child: Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: CupertinoColors.lightBackgroundGray),
-                                borderRadius: BorderRadius.circular(10),
-                                color:
-                                    CupertinoColors.extraLightBackgroundGray),
-                            child: Text(tips[index].comment),
-                          ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              padding:
-                  const EdgeInsets.only(top: 5, bottom: 45, left: 5, right: 5),
-              decoration: const BoxDecoration(
-                color: CupertinoColors.extraLightBackgroundGray,
-              ),
-              child: CupertinoTextField(
-                controller: controller,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  color: CupertinoColors.white,
-                ),
-                suffix: CupertinoButton(
-                  onPressed: addNewTip,
-                  padding: EdgeInsets.zero,
-                  child: const Icon(
-                    CupertinoIcons.arrow_up_circle,
                   ),
-                ),
+                  Container(
+                    padding: const EdgeInsets.only(
+                        top: 5, bottom: 10, left: 5, right: 5),
+                    decoration: BoxDecoration(
+                      color: categoryColor,
+                    ),
+                    child: CupertinoTextField(
+                      controller: controller,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        color: CupertinoColors.white,
+                      ),
+                      suffix: CupertinoButton(
+                        onPressed: addNewTip,
+                        padding: EdgeInsets.zero,
+                        child: const Icon(
+                          CupertinoIcons.arrow_up_circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

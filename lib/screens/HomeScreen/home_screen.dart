@@ -85,122 +85,139 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabView(
-      builder: (BuildContext context) {
-        return Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(255, 242, 242, 247)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const SizedBox(
-                height: 100,
-              ),
-
-              // Welcome, ${username}
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  "Welcome, ${user.userName}",
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-
-              // Menu
-              CupertinoListSection.insetGrouped(
-                header: const Text(
-                  'Menu',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+    return Container(
+      color: CupertinoColors.extraLightBackgroundGray,
+      child: SafeArea(
+        child: CupertinoTabView(
+          builder: (BuildContext context) {
+            return Container(
+              decoration: const BoxDecoration(
+                  color: CupertinoColors.extraLightBackgroundGray),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // 닉네임 변경
-                  CupertinoListTile.notched(
-                    title: const Text('닉네임 변경'),
-                    leading: const SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Icon(CupertinoIcons.arrow_2_circlepath),
-                    ),
-                    trailing: const CupertinoListTileChevron(),
-                    onTap: _showNicknameChangePopup,
+                  const SizedBox(
+                    height: 100,
                   ),
 
-                  // 친구 목록 보기
-                  CupertinoListTile.notched(
-                    title: const Text('친구 목록'),
-                    leading: const SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Icon(CupertinoIcons.list_bullet),
+                  // welecom message
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      "반가워요, ${user.userName}님!",
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                    trailing: const CupertinoListTileChevron(),
-                    onTap: () => Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        builder: (BuildContext context) {
-                          return const FriendListScreen();
-                        },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "당신만의 팁을 공유해주세요!",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
 
-                  // 친구 추가
-                  CupertinoListTile.notched(
-                    title: const Text('친구 추가'),
-                    leading: const SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Icon(CupertinoIcons.person_crop_circle_badge_plus),
-                    ),
-                    trailing: const CupertinoListTileChevron(),
-                    onTap: _showFriendRequestPopup,
-                  ),
-
-                  // 받은 요청 목록 보기
-                  CupertinoListTile.notched(
-                    title: const Text('받은 요청'),
-                    leading: const SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Icon(CupertinoIcons.app_badge),
-                    ),
-                    trailing: const CupertinoListTileChevron(),
-                    onTap: () => Navigator.of(context).push(
-                      CupertinoPageRoute(
-                        builder: (BuildContext context) {
-                          return const MessageScreen();
-                        },
+                  // Menu
+                  CupertinoListSection.insetGrouped(
+                    backgroundColor: CupertinoColors.extraLightBackgroundGray,
+                    header: const Text(
+                      'Menu',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                    children: [
+                      // 닉네임 변경
+                      CupertinoListTile.notched(
+                        title: const Text('닉네임 변경'),
+                        leading: const SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Icon(CupertinoIcons.arrow_2_circlepath),
+                        ),
+                        trailing: const CupertinoListTileChevron(),
+                        onTap: _showNicknameChangePopup,
+                      ),
 
-                  // 로그아웃
-                  CupertinoListTile.notched(
-                    title: const Text('로그아웃'),
-                    leading: const SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Icon(CupertinoIcons.xmark_circle),
-                    ),
-                    trailing: const CupertinoListTileChevron(),
-                    onTap: () {
-                      // 카카오 토큰 파기
-                      UserApi.instance.logout();
-                      // 스트림 로그아웃
-                      user.loginStreamController.add(false);
-                    },
+                      // 친구 목록 보기
+                      CupertinoListTile.notched(
+                        title: const Text('친구 목록'),
+                        leading: const SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Icon(CupertinoIcons.list_bullet),
+                        ),
+                        trailing: const CupertinoListTileChevron(),
+                        onTap: () => Navigator.of(context).push(
+                          CupertinoPageRoute(
+                            builder: (BuildContext context) {
+                              return const FriendListScreen();
+                            },
+                          ),
+                        ),
+                      ),
+
+                      // 친구 추가
+                      CupertinoListTile.notched(
+                        title: const Text('친구 추가'),
+                        leading: const SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Icon(
+                              CupertinoIcons.person_crop_circle_badge_plus),
+                        ),
+                        trailing: const CupertinoListTileChevron(),
+                        onTap: _showFriendRequestPopup,
+                      ),
+
+                      // 받은 요청 목록 보기
+                      CupertinoListTile.notched(
+                        title: const Text('받은 요청'),
+                        leading: const SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Icon(CupertinoIcons.app_badge),
+                        ),
+                        trailing: const CupertinoListTileChevron(),
+                        onTap: () => Navigator.of(context).push(
+                          CupertinoPageRoute(
+                            builder: (BuildContext context) {
+                              return const MessageScreen();
+                            },
+                          ),
+                        ),
+                      ),
+
+                      // 로그아웃
+                      CupertinoListTile.notched(
+                        title: const Text('로그아웃'),
+                        leading: const SizedBox(
+                          width: double.infinity,
+                          height: double.infinity,
+                          child: Icon(CupertinoIcons.xmark_circle),
+                        ),
+                        trailing: const CupertinoListTileChevron(),
+                        onTap: () {
+                          // 카카오 토큰 파기
+                          UserApi.instance.logout();
+                          // 스트림 로그아웃
+                          user.loginStreamController.add(false);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }

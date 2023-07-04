@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int currentIndex = 1;
+    int currentIndex = 0;
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
         items: const [

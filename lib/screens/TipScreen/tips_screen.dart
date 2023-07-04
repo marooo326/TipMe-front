@@ -120,83 +120,84 @@ class _TipsScreenState extends State<TipsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabView(
-      builder: (context) {
-        return CupertinoPageScaffold(
-          navigationBar: const CupertinoNavigationBar(
-            backgroundColor: CupertinoColors.lightBackgroundGray,
-            middle: Text("Tips"),
-            trailing: Icon(CupertinoIcons.search),
-          ),
-          child: ChangeNotifierProvider<CategoryProvider>(
-            create: (_) => CategoryProvider(),
-            builder: (context, child) {
-              return Scaffold(
-                floatingActionButton: Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: FloatingActionButton(
-                    backgroundColor: CupertinoColors.systemTeal,
-                    onPressed: _showPostAddScreen,
-                    child: const Icon(CupertinoIcons.add),
-                  ),
-                ),
-                body: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: _makeCategoryButtons(),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+    return Container(
+      color: CupertinoColors.lightBackgroundGray,
+      child: SafeArea(
+        child: CupertinoTabView(
+          builder: (context) {
+            return CupertinoPageScaffold(
+              navigationBar: const CupertinoNavigationBar(
+                backgroundColor: CupertinoColors.lightBackgroundGray,
+                middle: Text("Tips"),
+              ),
+              child: ChangeNotifierProvider<CategoryProvider>(
+                create: (_) => CategoryProvider(),
+                builder: (context, child) {
+                  return Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      backgroundColor: CupertinoColors.systemTeal,
+                      onPressed: _showPostAddScreen,
+                      child: const Icon(CupertinoIcons.add),
+                    ),
+                    body: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Column(
                         children: [
-                          CupertinoButton(
-                            padding: const EdgeInsets.only(right: 15),
-                            onPressed: _refreshPost,
-                            child: Row(
-                              children: const [
-                                Text(
-                                  "포스트 새로고침",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ],
+                          SizedBox(
+                            height: 50,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: _makeCategoryButtons(),
                             ),
-                          )
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CupertinoButton(
+                                padding: const EdgeInsets.only(right: 15),
+                                onPressed: _refreshPost,
+                                child: const Row(
+                                  children: [
+                                    Text(
+                                      "포스트 새로고침",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          Expanded(
+                            child: FutureBuilder(
+                              future: posts,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return GridView.extent(
+                                    padding: const EdgeInsets.only(bottom: 300),
+                                    maxCrossAxisExtent: 250,
+                                    children:
+                                        _makeTipCards(context, snapshot.data!),
+                                  );
+                                } else {
+                                  return const Center(
+                                    child: CupertinoActivityIndicator(),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
                         ],
                       ),
-                      Expanded(
-                        child: FutureBuilder(
-                          future: posts,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return GridView.extent(
-                                padding: const EdgeInsets.only(bottom: 300),
-                                maxCrossAxisExtent: 250,
-                                children:
-                                    _makeTipCards(context, snapshot.data!),
-                              );
-                            } else {
-                              return const Center(
-                                child: CupertinoActivityIndicator(),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      },
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
