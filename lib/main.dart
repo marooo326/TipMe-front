@@ -24,7 +24,18 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CupertinoApp(
-      theme: CupertinoThemeData(brightness: Brightness.light),
+      debugShowCheckedModeBanner: false,
+      theme: CupertinoThemeData(
+        brightness: Brightness.light,
+        textTheme: CupertinoTextThemeData(
+          primaryColor: CupertinoColors.black,
+          textStyle: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontFamily: 'Taebaek',
+            color: CupertinoColors.black,
+          ),
+        ),
+      ),
       home: AuthScreen(),
     );
   }
