@@ -8,11 +8,11 @@
 - MySql
 
 ## Screnn Shots
-<p align:center><img src="https://github.com/marooo326/TipMe-front/assets/121790935/8b88696d-b8a5-47cd-9422-2d403f2b285f" width="49%">
-<img src="https://github.com/marooo326/TipMe-front/assets/121790935/e593e2e9-e17c-4b8d-b1d9-ccf5f57f1ec2" width="49%"></p>
+<p align:center><img src="https://github.com/marooo326/TipMe-front/assets/121790935/bf6f3712-d341-43e0-a59a-687169722c17" width="49%">
+<img src="https://github.com/marooo326/TipMe-front/assets/121790935/74f82423-f349-4988-8479-18d5d78208b6" width="49%"></p>
 
-<p align:center><img src="https://github.com/marooo326/TipMe-front/assets/121790935/fa4c8390-9a50-452a-a144-686786db0855" width="49%">
-<img src="https://github.com/marooo326/TipMe-front/assets/121790935/3e8e2824-8155-4f35-a148-0dc69f176b15" width="49%">
+<p align:center><img src="https://github.com/marooo326/TipMe-front/assets/121790935/3de00226-7a5a-494f-ab31-a748029887f6" width="49%">
+<img src="https://github.com/marooo326/TipMe-front/assets/121790935/c99bcecf-4e2d-445c-9e72-6c7a3a41f218" width="49%">
 </p>
 
 ## Backend Gihub Link
